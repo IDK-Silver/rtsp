@@ -10,10 +10,14 @@ RTSPSocket::RTSPSocket(const std::string &ip, const uint16_t port) {
     this->port = port;
 }
 
+RTSPSocket::~RTSPSocket() {
+    close(this->socck_fd);
+}
+
 bool RTSPSocket::init() {
     this->socck_fd = socket_create(AF_INET, SOCK_STREAM);
 
-    if (!sock_init(this->socck_fd, this->ip.c_str(), this->port))
+    if (!sock_init(this->socck_fd, this->ip.c_str(), this->port, SOMAXCONN))
         return false;
 
     return true;
@@ -51,7 +55,7 @@ std::string RTSPSocket::wait_recv(const RTSPSocket &client_socket) {
 
     std::string result;
 
-    char recv_buffer[1024]{0}, sendBuf[1024]{0};
+    char recv_buffer[1024]{0};
 
     auto recv_length = recv(client_socket.socck_fd, recv_buffer, sizeof(recv_buffer), 0);
 
@@ -95,7 +99,7 @@ bool RTSPSocket::sock_init(int rtspSockfd, const char *IP, const uint16_t port, 
 {
     if (!socket_bind(rtspSockfd, IP, port))
         return false;
-
+    // noinspection SameParameterValue
     if (listen(rtspSockfd, ListenQueue) < 0)
     {
         fprintf(stderr, "listen() failed: %s\n", strerror(errno));

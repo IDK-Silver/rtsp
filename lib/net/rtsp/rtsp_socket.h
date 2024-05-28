@@ -25,7 +25,7 @@
 class RTSPSocket {
 public:
     RTSPSocket(const std::string &ip, uint16_t port);
-    ~RTSPSocket() = default;
+    ~RTSPSocket();
     bool init();
     [[nodiscard]] RTSPSocket wait_accept() const;
     static std::string wait_recv(const RTSPSocket &client_socket);
@@ -36,7 +36,7 @@ private:
     int socck_fd{};
     static int socket_create(int domain, int type, int protocol = 0);
     static bool socket_bind(int sockfd, const char *IP, uint16_t port);
-    static bool sock_init(int rtspSockfd, const char *IP, uint16_t port, int64_t ListenQueue = 5);
+    static bool sock_init(int rtspSockfd, const char *IP, uint16_t port, int64_t ListenQueue);
 };
 
 
