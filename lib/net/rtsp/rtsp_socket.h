@@ -27,9 +27,12 @@ public:
     RTSPSocket(const std::string &ip, uint16_t port);
     ~RTSPSocket();
     bool init();
-    [[nodiscard]] RTSPSocket wait_accept() const;
+    [[nodiscard]] std::shared_ptr<RTSPSocket> wait_accept() const;
     static std::string wait_recv(const RTSPSocket &client_socket);
-
+    bool send_packet(const std::string &packet) const;
+    bool is_valid();
+    std::string get_ip();
+    uint16_t get_port();
 private:
     std::string ip;
     uint16_t port{};

@@ -10,4 +10,6 @@ add_executable(rtsp src/main.cpp
         lib/net/rtsp/rtsp_socket.h
         lib/net/rtsp/rtsp_packet.cpp
         lib/net/rtsp/rtsp_packet.h
-        lib/lib_config.h)
+        lib/lib_config.h
+        src/server/RTSPServer.cpp
+        src/server/RTSPServer.h)

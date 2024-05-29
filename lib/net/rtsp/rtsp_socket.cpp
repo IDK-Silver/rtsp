@@ -23,7 +23,7 @@ bool RTSPSocket::init() {
     return true;
 }
 
-RTSPSocket RTSPSocket::wait_accept() const {
+std::shared_ptr<RTSPSocket> RTSPSocket::wait_accept() const {
 
     sockaddr_in cliAddr{};
     bzero(&cliAddr, sizeof(cliAddr));
@@ -44,8 +44,8 @@ RTSPSocket RTSPSocket::wait_accept() const {
             inet_ntop(AF_INET, &cliAddr.sin_addr, ipv4, sizeof(ipv4)),
             ntohs(cliAddr.sin_port));
 
-    RTSPSocket client_socket(std::string(ipv4), ntohs(cliAddr.sin_port));
-    client_socket.socck_fd = client_fd;
+    std::shared_ptr<RTSPSocket> client_socket = std::make_shared<RTSPSocket>(std::string(ipv4), ntohs(cliAddr.sin_port));
+    client_socket->socck_fd = client_fd;
 
 
     return client_socket;
@@ -66,6 +66,22 @@ std::string RTSPSocket::wait_recv(const RTSPSocket &client_socket) {
     // result.at(recv_length) = 0;
 
     return result;
+}
+
+bool RTSPSocket::send_packet(const std::string &packet) const {
+    return (send(this->socck_fd, packet.c_str(), strlen(packet.c_str()), 0) < 1);
+}
+
+bool RTSPSocket::is_valid() {
+    return (this->socck_fd >= 0);
+}
+
+std::string RTSPSocket::get_ip() {
+    return this->ip;
+}
+
+uint16_t RTSPSocket::get_port() {
+    return this->port;
 }
 
 

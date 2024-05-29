@@ -4,45 +4,51 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include "./server/RTSPServer.h"
 int main() {
 
 
+    RTSPServer server(5251, 5252);
+
+    server.run("4545");
 
 
-
-    RTSPSocket server_socket("127.0.0.1", 5051);
-
-    server_socket.init();
-
-    auto client_socket = server_socket.wait_accept();
-
-    for (int i = 0; i < 1; i++) {
-        auto recv = RTSPSocket::wait_recv(client_socket);
-
-        for (const char &c : recv) {
-            if (c == '\r')
-                std::cout << R"(\r)";
-            else if (c == '\n')
-                std::cout << R"(\n)";
-            else
-                std::cout << c;
-        }
-        std::cout << '\n';
-
-        RTSPPacket packet;
-        packet.decode(recv);
-
-
-        std::vector<RTSPPacket::Headers> all_headers = {
-            RTSPPacket::Headers::Method,
-            RTSPPacket::Headers::Url,
-            RTSPPacket::Headers::Version
-        };
-
-        for (const auto &target : all_headers) {
-            std::cout << packet.get_header_value(target) << std::endl;
-        }
-    }
+    // RTSPSocket server_socket("127.0.0.1", 5251);
+    //
+    // server_socket.init();
+    //
+    // auto client_socket = server_socket.wait_accept();
+    //
+    // for (int i = 0; i < 1; i++) {
+    //     auto recv = RTSPSocket::wait_recv(client_socket);
+    //
+    //     for (const char &c : recv) {
+    //         if (c == '\r')
+    //             std::cout << R"(\r)";
+    //         else if (c == '\n')
+    //             std::cout << R"(\n)";
+    //         else
+    //             std::cout << c;
+    //     }
+    //     std::cout << "\n\n";
+    //
+    //     RTSPPacket packet;
+    //     packet.decode(recv);
+    //
+    //     std::cout << "method : " << packet.get_header_value(RTSPPacket::Headers::Method) << "\n";
+    //
+    //     if (packet.get_header_value(RTSPPacket::Headers::Method) == RTSPPacket::method_to_string(RTSPPacket::SETUP)) {
+    //         std::cout << packet.get_header_value(RTSPPacket::Headers::Url) << "\n";
+    //         std::cout << packet.get_header_value(RTSPPacket::Headers::CSeq) << "\n";
+    //     }
+    //
+    //
+    //     std::cout << "\npacker info\n" << packet;
+    //
+    //
+    //
+    //
+    // }
 
     // // RTSP request message including SDP content
     // std::string rtspRequest =
