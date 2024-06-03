@@ -1,10 +1,9 @@
 //
-// Created by idk on 2024/5/27.
+// Created by idk on 2024/6/3.
 //
 
-#ifndef RTSP_SOCKET_H
-#define RTSP_SOCKET_H
-
+#ifndef RTP_SOCKET_H
+#define RTP_SOCKET_H
 
 #include <cassert>
 #include <cerrno>
@@ -22,17 +21,17 @@
 #include <memory>
 #include <vector>
 
-class RTSPSocket {
+#include "rtp_packet.h"
+
+class RTPSocket {
 public:
-    RTSPSocket(const std::string &ip, uint16_t port);
-    ~RTSPSocket();
+    RTPSocket(const std::string &ip, uint16_t port);
+    ~RTPSocket();
+
     bool init();
-    [[nodiscard]] std::shared_ptr<RTSPSocket> wait_accept() const;
-    static std::string wait_recv(const RTSPSocket &client_socket);
-    bool send_packet(const std::string &packet) const;
-    [[nodiscard]] bool is_valid() const;
-    std::string get_ip();
-    uint16_t get_port();
+
+    bool RTPSocket::send_packet(RTPPacket &packet);
+
 private:
     std::string ip;
     uint16_t port{};
@@ -44,4 +43,4 @@ private:
 
 
 
-#endif //RTSP_SOCKET_H
+#endif //RTP_SOCKET_H

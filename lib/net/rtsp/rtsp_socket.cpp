@@ -72,7 +72,7 @@ bool RTSPSocket::send_packet(const std::string &packet) const {
     return (send(this->socck_fd, packet.c_str(), strlen(packet.c_str()), 0) < 1);
 }
 
-bool RTSPSocket::is_valid() {
+bool RTSPSocket::is_valid() const {
     return (this->socck_fd >= 0);
 }
 

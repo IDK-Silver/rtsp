@@ -141,7 +141,6 @@ std::string RTSPPacket::encode() {
 }
 
 bool RTSPPacket::decode(const std::string &request) {
-
     // request to string string
     std::istringstream request_stream(request);
 
@@ -268,12 +267,9 @@ bool RTSPPacket::set_header_value(Headers header, const std::string &value) {
 
 std::ostream& operator<<(std::ostream& os, RTSPPacket& packet)
 {
-
     for (const auto& header : RTSPPacket::get_all_headers()) {
         os  << "Header [" << RTSPPacket::header_to_string(header) << "]: "
             << packet.get_header_value(header) << std::endl;
     }
-
-
     return os;
 }
