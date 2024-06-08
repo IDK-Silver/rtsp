@@ -41,6 +41,7 @@ public:
     class Header {
 
     public:
+        Header() = default;
         Header(uint16_t seq, uint32_t timestamp, uint32_t ssrc);
         ~Header() = default;
         void set_timestamp(uint32_t timestamp);
@@ -75,6 +76,12 @@ public:
 
     std::string encode();
 
+    void set_seq(uint32_t seq);
+    void set_timestamp(uint32_t timestamp);
+
+    uint32_t get_seq();
+    uint32_t get_timestamp();
+
 private:
     Header header;
     std::array<uint8_t, RTP_MAX_PAYLOAD_SIZE> payload = {0};
@@ -83,7 +90,6 @@ private:
     uint16_t seq{};
     uint32_t timestamp{};
 };
-
 
 
 #endif //RTP_PACKET_H

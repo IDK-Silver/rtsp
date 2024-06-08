@@ -93,4 +93,21 @@ std::string RTPPacket::encode() {
     return  result;
 }
 
+void RTPPacket::set_seq(uint32_t seq) {
+    this->header.set_seq(seq);
+    this->seq = seq;
+}
+
+void RTPPacket::set_timestamp(uint32_t timestamp) {
+    this->header.set_timestamp(timestamp);
+    this->timestamp = timestamp;
+}
+
+uint32_t RTPPacket::get_seq() {
+    return this->seq;
+}
+
+uint32_t RTPPacket::get_timestamp() {
+    return this->timestamp;
+}
 

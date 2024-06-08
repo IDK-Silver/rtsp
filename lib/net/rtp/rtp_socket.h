@@ -28,7 +28,7 @@ public:
     RTPSocket(const std::string &ip, uint16_t port);
     ~RTPSocket();
 
-    bool init();
+    bool init(bool bind = true);
 
     bool RTPSocket::send_packet(RTPPacket &packet);
 
@@ -39,6 +39,10 @@ private:
     static int socket_create(int domain, int type, int protocol = 0);
     static bool socket_bind(int sockfd, const char *IP, uint16_t port);
     static bool sock_init(int rtspSockfd, const char *IP, uint16_t port, int64_t ListenQueue);
+
+    uint32_t each_timestamp;
+    uint32_t seq = 0;
+    uint32_t timestamp = 0;
 };
 
 

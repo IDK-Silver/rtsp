@@ -17,8 +17,11 @@ RTPSocket::~RTPSocket() {
 
 
 
-bool RTPSocket::init() {
+bool RTPSocket::init(bool bind) {
     this->socck_fd = socket_create(AF_INET, SOCK_DGRAM);
+
+    if (!bind)
+        return false;
 
     if (!sock_init(this->socck_fd, this->ip.c_str(), this->port, SOMAXCONN))
         return false;
@@ -32,7 +35,7 @@ bool RTPSocket::send_packet(RTPPacket &packet) {
     bzero(&addr, sizeof(addr));
     addr.sin_family = AF_INET;
     addr.sin_port = htons(port);
-    inet_pton(AF_INET, this->ip.c_str(), &addr.sin_addr);
+    inet_pton(AF_INET, ip.c_str(), &addr.sin_addr);
 
     auto rtp_data = packet.encode();
 
@@ -43,6 +46,9 @@ bool RTPSocket::send_packet(RTPPacket &packet) {
 
     if (ret < 0)
         fprintf(stderr, "RTP Socket send_packet failed: %s\n", strerror(errno));
+
+    this->timestamp += this->each_timestamp;
+    this->seq++;
 
     return ret;
 }

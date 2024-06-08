@@ -7,8 +7,7 @@
 #include "./server/RTSPServer.h"
 int main() {
 
-
-    RTSPServer server(5251, 5252);
+    RTSPServer server(5002);
 
     server.run("4545");
 

@@ -19,4 +19,6 @@ add_executable(rtsp
         lib/net/rtp/rtp_packet.h
         lib/net/rtp/rtp_socket.cpp
         lib/net/rtp/rtp_socket.h
-        lib/net/basic.h)
+        lib/net/basic.h
+        lib/media/media_stream.cpp
+        lib/media/media_stream.h)
